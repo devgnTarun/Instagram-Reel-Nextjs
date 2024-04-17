@@ -2,32 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+* {
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.home-container {
+  @apply flex items-center justify-center w-full mx-auto min-h-[100vh];
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.videos-container {
+  @apply w-[90%] mx-auto;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.videos-container>h1 {
+  @apply text-xl font-semibold text-gray-700;
+  letter-spacing: 1px;
+}
+
+.videos-container>h1>span {
+  color: #1C76FD;
+}
+
+.videos-scroll-container::-webkit-scrollbar {
+  display: none
+}
+
+.videos-scroll-container {
+  @apply flex gap-[10px] my-5 gap-[10px];
+  white-space: nowrap;
+  overflow-x: auto;
+  width: calc(100% + 20px);
+}
+
+.single-video-container {
+  @apply w-[200px] h-[350px] rounded-lg overflow-hidden cursor-pointer;
+  flex: none;
+}
+
+.single-video-container>video {
+  @apply h-full object-cover
 }
