@@ -101,3 +101,13 @@
 .video-control-icons>p {
   @apply text-3xl text-white;
 }
+
+@media (max-width : 500px) {
+  .single-video-page {
+    @apply py-0;
+  }
+
+  .single-video-box {
+    @apply rounded-none;
+  }
+}

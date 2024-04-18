@@ -1,48 +1,67 @@
 "use client"
-
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { data } from '@/libs/data';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const page = ({ params }: { params: { id: number } }) => {
-
-    const [video, setVideo] = useState<VIDEO_TYPE>();
+const Page = ({ params }: { params: { id: number } }) => {
+    const [video, setVideo] = useState<VIDEO_TYPE | null>(null);
     const [muted, setMuted] = useState<boolean>(false);
-    const id = params.id;
+    const router = useRouter();
+    const { id } = params;
 
-    const videoRef = useRef(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const lastScrollY = useRef<number>(0);
+
     const toggleMute = () => {
-        const videoElement = videoRef.current as any;
-
-        if (videoElement.muted) {
-            videoElement.muted = false;
-            setMuted(false);
-        } else {
-            videoElement.muted = true;
-            setMuted(true);
-        }
-    };
-
-    const togglePlay = () => {
-        const videoElement = videoRef.current as any;
-
-        if (videoElement.paused) {
-            videoElement.play();
-        } else {
-            videoElement.pause();
+        const videoElement = videoRef.current;
+        if (videoElement) {
+            videoElement.muted = !videoElement.muted;
+            setMuted(videoElement.muted);
         }
     };
 
     useEffect(() => {
         if (id) {
-            const foundVideo = data.find(v => v.id === Number(id)) as VIDEO_TYPE;
+            const foundVideo = data.find(v => v.id === Number(id)) || null;
             setVideo(foundVideo);
         }
     }, [id]);
 
-    if (!video) {
+    const handleScroll = () => {
+        const currentScrollY = window.scrollY;
+        const scrollingUp = currentScrollY < lastScrollY.current;
+        lastScrollY.current = currentScrollY;
+
+        if (scrollingUp) {
+            const prevVideo = data.find(v => v.id === (video?.id || 0) - 1);
+            if (prevVideo) {
+                setVideo(prevVideo);
+                router.push(`/video/${prevVideo.id}`);
+            }
+        } else {
+            const nextVideo = data.find(v => v.id === (video?.id || 0) + 1);
+            if (nextVideo) {
+                setVideo(nextVideo);
+                router.push(`/video/${nextVideo.id}`);
+            }
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [video, router]);
+
+    if (!id) {
         return <div>Loading...</div>;
+    }
+
+    if (!video) {
+        return <div>No videos found.</div>;
     }
 
     return (
@@ -54,7 +73,8 @@ const page = ({ params }: { params: { id: number } }) => {
                     src={video.video}
                     loop
                     playsInline
-                    onClick={togglePlay}
+                    autoPlay
+                    onClick={() => videoRef.current?.paused ? videoRef.current?.play() : videoRef.current?.pause()}
                 ></video>
                 <div className="video-content">
                     <div className="flex items-center  my-3">
@@ -84,4 +104,4 @@ const page = ({ params }: { params: { id: number } }) => {
     );
 };
 
-export default page;
+export default Page;
