@@ -7,7 +7,9 @@ export const data: VIDEO_TYPE[] = [
         thumbnail: "thumbnail link",
         likes: 4,
         comments: 10,
-        shares: 100
+        shares: 100,
+        author: "John Doe",
+        created_at: "2024-04-18"
     },
     {
         id: 2,
@@ -17,7 +19,9 @@ export const data: VIDEO_TYPE[] = [
         thumbnail: "thumbnail link",
         likes: 25,
         comments: 8,
-        shares: 45
+        shares: 45,
+        author: "Jane Smith",
+        created_at: "2024-04-17"
     },
     {
         id: 3,
@@ -27,7 +31,9 @@ export const data: VIDEO_TYPE[] = [
         thumbnail: "thumbnail link",
         likes: 63,
         comments: 15,
-        shares: 78
+        shares: 78,
+        author: "Alice Johnson",
+        created_at: "2024-04-16"
     },
     {
         id: 4,
@@ -37,7 +43,9 @@ export const data: VIDEO_TYPE[] = [
         thumbnail: "thumbnail link",
         likes: 38,
         comments: 20,
-        shares: 92
+        shares: 92,
+        author: "Michael Brown",
+        created_at: "2024-04-15"
     },
     {
         id: 5,
@@ -47,7 +55,9 @@ export const data: VIDEO_TYPE[] = [
         thumbnail: "thumbnail link",
         likes: 102,
         comments: 42,
-        shares: 157
+        shares: 157,
+        author: "Emily Wilson",
+        created_at: "2024-04-14"
     },
     {
         id: 6,
@@ -57,7 +67,9 @@ export const data: VIDEO_TYPE[] = [
         thumbnail: "thumbnail link",
         likes: 76,
         comments: 30,
-        shares: 105
+        shares: 105,
+        author: "David Clark",
+        created_at: "2024-04-13"
     },
     {
         id: 7,
@@ -67,7 +79,9 @@ export const data: VIDEO_TYPE[] = [
         thumbnail: "thumbnail link",
         likes: 54,
         comments: 18,
-        shares: 82
+        shares: 82,
+        author: "Sarah Davis",
+        created_at: "2024-04-12"
     },
     {
         id: 8,
@@ -77,7 +91,9 @@ export const data: VIDEO_TYPE[] = [
         thumbnail: "thumbnail link",
         likes: 89,
         comments: 25,
-        shares: 113
+        shares: 113,
+        author: "James Wilson",
+        created_at: "2024-04-11"
     },
     {
         id: 9,
@@ -87,7 +103,9 @@ export const data: VIDEO_TYPE[] = [
         thumbnail: "thumbnail link",
         likes: 45,
         comments: 12,
-        shares: 67
+        shares: 67,
+        author: "Emma Johnson",
+        created_at: "2024-04-10"
     },
     {
         id: 10,
@@ -97,6 +115,8 @@ export const data: VIDEO_TYPE[] = [
         thumbnail: "thumbnail link",
         likes: 60,
         comments: 22,
-        shares: 98
+        shares: 98,
+        author: "John Smith",
+        created_at: "2024-04-09"
     }
-]
+];

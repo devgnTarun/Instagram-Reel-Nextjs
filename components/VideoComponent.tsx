@@ -1,5 +1,5 @@
 "use client"
-
+import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
 interface Video {
@@ -22,7 +22,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ video }) => {
             if (videoElement && isElementInViewport(videoElement)) {
                 videoElement.play();
             } else {
-                videoElement.play();
+                videoElement.pause();
             }
         };
 
@@ -53,17 +53,17 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ video }) => {
         if (!el) return false;
         const rect = el.getBoundingClientRect();
         return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
+            rect.top >= 20 &&
+            rect.left >= 30 &&
             rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
             rect.right <= (window.innerWidth || document.documentElement.clientWidth)
         );
     };
 
     return (
-        <div key={video.id} className="single-video-container">
-            <video ref={videoRef} className="custom-video" src={video.video} muted loop playsInline></video>
-        </div>
+        <Link href={`/video/${video.id}`} key={video.id} className="single-video-container">
+            <video ref={videoRef} className="custom-video" src={video.video} muted loop playsInline ></video>
+        </Link >
     );
 };
 

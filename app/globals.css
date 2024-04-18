@@ -43,5 +43,61 @@
 }
 
 .single-video-container>video {
-  @apply h-full object-cover
+  @apply h-full object-cover;
+}
+
+/* SINGLE VIDEO PAGE  */
+
+.single-video-page {
+  @apply w-full h-screen overflow-hidden py-4;
+}
+
+.single-video-box {
+  @apply w-full max-w-[430px] mx-auto h-full rounded-lg overflow-hidden relative;
+}
+
+.single-video-box>video {
+  @apply h-full object-cover;
+}
+
+.video-content {
+  @apply absolute bottom-[5%] left-[20px] w-full;
+}
+
+.video-content>div>h2 {
+  @apply text-white font-semibold text-sm ml-2;
+  letter-spacing: 0.5px;
+}
+
+.video-content>h5 {
+  @apply text-[12px] text-gray-100 font-extralight;
+}
+
+.video-content>p {
+  @apply text-gray-500 font-light text-[10px] mt-2;
+}
+
+.video-product {
+  @apply mx-auto bg-red-500 hover:bg-red-600 text-[12px] w-[90%] text-white py-2 px-6 rounded-lg mt-3;
+}
+
+.video-icons {
+  @apply absolute top-[50%] right-[10px] gap-[20px] flex flex-col;
+}
+
+.video-icons>p {
+  @apply flex flex-col items-center justify-center gap-[5px] text-white text-sm;
+}
+
+.video-icons>p>span {
+  @apply text-xl;
+}
+
+/* Control video icons */
+.video-control-icons {
+  @apply flex w-full px-5 absolute top-[15px] left-0 items-center justify-between;
+}
+
+.video-control-icons>p {
+  @apply text-3xl text-white;
 }
