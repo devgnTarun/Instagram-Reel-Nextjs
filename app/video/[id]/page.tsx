@@ -1,10 +1,11 @@
 "use client"
-
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { data } from '@/libs/data';
 import Image from 'next/image';
 import Link from 'next/link';
+import 'ionicons';
+import { IonIcon } from '@ionic/react';
 
 const Page = ({ params }: { params: { id: number } }) => {
     const [video, setVideo] = useState<VIDEO_TYPE | null>(null);
@@ -14,6 +15,7 @@ const Page = ({ params }: { params: { id: number } }) => {
 
     const videoRef = useRef<HTMLVideoElement>(null);
     const lastScrollY = useRef<number>(0);
+    const scrolling = useRef<boolean>(false);
 
     const toggleMute = () => {
         const videoElement = videoRef.current;
@@ -31,40 +33,52 @@ const Page = ({ params }: { params: { id: number } }) => {
     }, [id]);
 
     const handleScroll = () => {
-        const currentScrollY = window.scrollY;
-        const scrollingUp = currentScrollY < lastScrollY.current;
-        lastScrollY.current = currentScrollY;
+        if (!scrolling.current) {
+            scrolling.current = true;
+            setTimeout(() => {
+                const currentScrollY = window.scrollY;
+                const scrollingUp = currentScrollY < lastScrollY.current;
+                lastScrollY.current = currentScrollY;
 
-        if (scrollingUp) {
-            const prevVideo = data.find(v => v.id === (video?.id || 0) - 1);
-            if (prevVideo) {
-                setVideo(prevVideo);
-                router.push(`/video/${prevVideo.id}`);
-            }
-        } else {
-            const nextVideo = data.find(v => v.id === (video?.id || 0) + 1);
-            if (nextVideo) {
-                setVideo(nextVideo);
-                router.push(`/video/${nextVideo.id}`);
-            }
+                if (scrollingUp) {
+                    const prevVideo = data.find(v => v.id === (video?.id || 0) - 1);
+                    if (prevVideo) {
+                        router.push(`/video/${prevVideo.id}`);
+                    }
+                } else {
+                    const nextVideo = data.find(v => v.id === (video?.id || 0) + 1);
+                    if (nextVideo) {
+                        router.push(`/video/${nextVideo.id}`);
+                    }
+                }
+                setTimeout(() => {
+                    scrolling.current = false;
+                }, 500); // Adjust the debounce delay (in milliseconds)
+            }, 1000); // Adjust the debounce delay (in milliseconds)
         }
     };
 
     const handleWheel = (event: WheelEvent) => {
         event.preventDefault();
-        const scrollingUp = event.deltaY < 0;
-        if (scrollingUp) {
-            const prevVideo = data.find(v => v.id === (video?.id || 0) - 1);
-            if (prevVideo) {
-                setVideo(prevVideo);
-                router.push(`/video/${prevVideo.id}`);
-            }
-        } else {
-            const nextVideo = data.find(v => v.id === (video?.id || 0) + 1);
-            if (nextVideo) {
-                setVideo(nextVideo);
-                router.push(`/video/${nextVideo.id}`);
-            }
+        if (!scrolling.current) {
+            scrolling.current = true;
+            setTimeout(() => {
+                const scrollingUp = event.deltaY < 0;
+                if (scrollingUp) {
+                    const prevVideo = data.find(v => v.id === (video?.id || 0) - 1);
+                    if (prevVideo) {
+                        router.push(`/video/${prevVideo.id}`);
+                    }
+                } else {
+                    const nextVideo = data.find(v => v.id === (video?.id || 0) + 1);
+                    if (nextVideo) {
+                        router.push(`/video/${nextVideo.id}`);
+                    }
+                }
+                setTimeout(() => {
+                    scrolling.current = false;
+                }, 1000); // Adjust the debounce delay (in milliseconds)
+            }, 2000); // Adjust the debounce delay (in milliseconds)
         }
     };
 
@@ -76,6 +90,17 @@ const Page = ({ params }: { params: { id: number } }) => {
             window.removeEventListener('wheel', handleWheel);
         };
     }, [video, router]);
+
+    useEffect(() => {
+        const currentVideo = data.find(v => v.id === Number(id)) || null;
+        if (currentVideo && video && currentVideo.id !== video.id) {
+            setVideo(currentVideo);
+            scrolling.current = false;
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 1500); // Adjust the delay before scrolling (in milliseconds)
+        }
+    }, [id]);
 
     if (!id) {
         return <div>Loading...</div>;
@@ -112,13 +137,13 @@ const Page = ({ params }: { params: { id: number } }) => {
                     {/* Put your product link  */}
                 </div>
                 <div className="video-icons">
-                    <p><span><ion-icon name="heart-outline" ></ion-icon></span> {video.likes}</p>
-                    <p><span><ion-icon name="chatbubble-outline"></ion-icon> </span>{video.comments}</p>
-                    <p><span><ion-icon name="send-outline"></ion-icon></span> {video.shares}</p>
+                    <p><span><IonIcon name="heart-outline" ></IonIcon></span> {video.likes}</p>
+                    <p><span><IonIcon name="chatbubble-outline"></IonIcon> </span>{video.comments}</p>
+                    <p><span><IonIcon name="send-outline"></IonIcon></span> {video.shares}</p>
                 </div>
                 <div className="video-control-icons">
-                    <p><Link href={'/'}><ion-icon name="close-circle-outline"></ion-icon></Link> </p>
-                    <p onClick={toggleMute}><ion-icon name={muted ? "volume-mute-outline" : "volume-medium-outline"}></ion-icon> </p>
+                    <p><Link href={'/'}><IonIcon name="close-circle-outline"></IonIcon></Link> </p>
+                    <p onClick={toggleMute}><IonIcon name={muted ? "volume-mute-outline" : "volume-medium-outline"}></IonIcon> </p>
                 </div>
             </div>
         </div>
@@ -126,4 +151,3 @@ const Page = ({ params }: { params: { id: number } }) => {
 };
 
 export default Page;
-
