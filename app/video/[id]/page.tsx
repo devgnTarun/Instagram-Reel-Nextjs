@@ -1,4 +1,5 @@
 "use client"
+
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { data } from '@/libs/data';
@@ -49,10 +50,30 @@ const Page = ({ params }: { params: { id: number } }) => {
         }
     };
 
+    const handleWheel = (event: WheelEvent) => {
+        event.preventDefault();
+        const scrollingUp = event.deltaY < 0;
+        if (scrollingUp) {
+            const prevVideo = data.find(v => v.id === (video?.id || 0) - 1);
+            if (prevVideo) {
+                setVideo(prevVideo);
+                router.push(`/video/${prevVideo.id}`);
+            }
+        } else {
+            const nextVideo = data.find(v => v.id === (video?.id || 0) + 1);
+            if (nextVideo) {
+                setVideo(nextVideo);
+                router.push(`/video/${nextVideo.id}`);
+            }
+        }
+    };
+
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
+        window.addEventListener('wheel', handleWheel);
         return () => {
             window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('wheel', handleWheel);
         };
     }, [video, router]);
 
@@ -105,3 +126,4 @@ const Page = ({ params }: { params: { id: number } }) => {
 };
 
 export default Page;
+
