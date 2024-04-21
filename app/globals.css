@@ -38,12 +38,24 @@
 }
 
 .single-video-container {
-  @apply w-[200px] h-[350px] rounded-lg overflow-hidden cursor-pointer;
+  @apply w-[200px] h-[350px] rounded-lg overflow-hidden cursor-pointer relative;
   flex: none;
 }
 
 .single-video-container>video {
   @apply h-full object-cover;
+}
+
+.single-video-container>div {
+  @apply absolute bottom-[5px] left-[10px] w-full flex flex-wrap flex-col;
+}
+
+.single-video-container>div>h5 {
+  @apply text-[12px] font-medium text-white;
+}
+
+.single-video-container>div>p {
+  @apply text-[10px] text-gray-200 my-1;
 }
 
 /* SINGLE VIDEO PAGE  */

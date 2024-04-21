@@ -1,10 +1,11 @@
 "use client"
+
+
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { data } from '@/libs/data';
 import Image from 'next/image';
 import Link from 'next/link';
-import 'ionicons';
 import { IonIcon } from '@ionic/react';
 
 const Page = ({ params }: { params: { id: number } }) => {
@@ -83,11 +84,11 @@ const Page = ({ params }: { params: { id: number } }) => {
     };
 
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener("scrollend", handleScroll);
         window.addEventListener('wheel', handleWheel);
         return () => {
-            window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('wheel', handleWheel);
+            window.removeEventListener('scrollend', handleScroll);
+            window.removeEventListener("wheel", handleWheel);
         };
     }, [video, router]);
 

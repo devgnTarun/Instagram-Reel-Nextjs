@@ -1,10 +1,13 @@
 "use client"
+
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
 interface Video {
     id: number;
     video: string;
+    author: string,
+    title: string
     // Add other properties as needed
 }
 
@@ -16,7 +19,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ video }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
-        const videoElement = videoRef.current as any;
+        const videoElement = videoRef.current as HTMLVideoElement;
 
         const handleVisibilityChange = () => {
             if (videoElement && isElementInViewport(videoElement)) {
@@ -38,23 +41,28 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ video }) => {
             }
         };
 
-        document.addEventListener('scroll', handleVisibilityChange);
-        videoElement.addEventListener('mouseenter', handleMouseEnter);
-        videoElement.addEventListener('mouseleave', handleMouseLeave);
+        // Call the handleVisibilityChange function immediately
+        handleVisibilityChange();
 
+        // Add event listeners
+        window.addEventListener('scroll', handleVisibilityChange);
+        window.addEventListener('scrollend', handleVisibilityChange);
+        videoElement.addEventListener('mouseenter', handleMouseEnter);
+
+        // Cleanup function
         return () => {
-            document.removeEventListener('scroll', handleVisibilityChange);
+            window.removeEventListener('scroll', handleVisibilityChange);
+            window.removeEventListener('scrollend', handleVisibilityChange);
             videoElement.removeEventListener('mouseenter', handleMouseEnter);
-            videoElement.removeEventListener('mouseleave', handleMouseLeave);
         };
-    }, []);
+    }, [video]);
 
     const isElementInViewport = (el: HTMLElement | null): boolean => {
         if (!el) return false;
         const rect = el.getBoundingClientRect();
         return (
-            rect.top >= 20 &&
-            rect.left >= 30 &&
+            rect.top >= 0 &&
+            rect.left >= 0 &&
             rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
             rect.right <= (window.innerWidth || document.documentElement.clientWidth)
         );
@@ -63,6 +71,14 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ video }) => {
     return (
         <Link href={`/video/${video.id}`} key={video.id} className="single-video-container">
             <video ref={videoRef} className="custom-video" src={video.video} muted loop playsInline ></video>
+            <div>
+                <h5 >
+                    {video?.author}
+                </h5>
+                <p>
+                    {video?.title}
+                </p>
+            </div>
         </Link >
     );
 };
