@@ -69,7 +69,7 @@ const VideoComponent: React.FC<VideoComponentProps> = ({ video }) => {
     };
 
     return (
-        <Link href={`/video/${video.id}`} key={video.id} className="single-video-container">
+        <Link href={`/video#${video.id}`} key={video.id} className="single-video-container">
             <video ref={videoRef} className="custom-video" src={video.video} muted loop playsInline ></video>
             <div>
                 <h5 >

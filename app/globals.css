@@ -40,6 +40,7 @@
 .single-video-container {
   @apply w-[200px] h-[350px] rounded-lg overflow-hidden cursor-pointer relative;
   flex: none;
+
 }
 
 .single-video-container>video {
@@ -61,7 +62,9 @@
 /* SINGLE VIDEO PAGE  */
 
 .single-video-page {
-  @apply w-full h-screen overflow-hidden py-4;
+  @apply w-full h-screen py-4;
+  position: relative;
+  scroll-snap-align: start;
 }
 
 .single-video-box {
@@ -122,4 +125,19 @@
   .single-video-box {
     @apply rounded-none;
   }
+}
+
+.random-video {
+  overflow: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+.random-video::-webkit-scrollbar {
+  display: none;
+}
+
+/* for IE Safari*/
+.random-video {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
