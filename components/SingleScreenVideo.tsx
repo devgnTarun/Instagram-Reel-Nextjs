@@ -33,7 +33,7 @@ const SingleScreenVideo = ({ video, play }: { video: any, play: boolean }) => {
     }
 
     return (
-        <div className="single-video-page flex-none" id={`video-${video.id}`}>
+        <div className="single-video-page flex-none" id={`${video.id}`}>
             <div className="single-video-box cursor-pointer">
                 <video
                     ref={videoRef}

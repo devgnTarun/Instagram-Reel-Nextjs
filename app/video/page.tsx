@@ -3,16 +3,24 @@
 import { useEffect, useState, useRef } from 'react';
 import SingleScreenVideo from '@/components/SingleScreenVideo';
 import { data } from '@/libs/data';
+import { useRouter } from 'next/navigation';
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
     const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
     const observer = useRef<IntersectionObserver | null>(null);
+    const router = useRouter();
 
     useEffect(() => {
         const handleIntersection = (entries: IntersectionObserverEntry[]) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    setActiveVideoId(entry.target.id);
+                    const newActiveVideoId = entry.target.id;
+                    setActiveVideoId(newActiveVideoId);
+
+                    // Update the URL with the new active video ID
+                    if (newActiveVideoId) {
+                        router.push(`/video#${newActiveVideoId}`);
+                    }
                 }
             });
         };
@@ -27,17 +35,17 @@ const page: React.FC = () => {
                 observer.current.disconnect();
             }
         };
-    }, []);
+    }, [router]);
 
     return (
         <div className='w-full flex flex-col h-[100vh] random-video'>
             {
                 data.map((video) => (
-                    <SingleScreenVideo key={video.id} video={video} play={activeVideoId === `video-${video.id}`} />
+                    <SingleScreenVideo key={video.id} video={video} play={activeVideoId === `${video.id}`} />
                 ))
             }
         </div>
     );
 };
 
-export default page;
+export default Page;
